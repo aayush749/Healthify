@@ -1,11 +1,61 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.0;
 
-import "./MedicalRecord.sol"
+import "./MedicalRecord.sol";
 
 contract Healthify {
-    MedicalRecord[] private medicalDB = [MedicalRecord().setPID(0)]
+    MedicalRecord[] private medicalDB;
+    string[] prognosisChart = [
+        "null",
+        "(vertigo) paroymsal  positional vertigo",
+        "acne",
+        "aids",
+        "alcoholic hepatitis",
+        "allergy",
+        "arthiritis",
+        "bronchial asthma",
+        "cervical spondylosis",
+        "chicken pox",
+        "chronic cholestasis",
+        "common cold",
+        "dengue",
+        "diabetes",
+        "diamorhpic hemmorhoids(piles)",
+        "drug reaction",
+        "fungal infection",
+        "gastrenteretis",
+        "gerd",
+        "heart attack",
+        "hepatitis a",
+        "hepatitis b",
+        "hepatitis c",
+        "hepatitis d",
+        "hepatitis e",
+        "hypertension",
+        "hyperthyroidism",
+        "hypoglycemia",
+        "hypothyroidism",
+        "impetigo",
+        "jaundice",
+        "malaria",
+        "migraine",
+        "osteoarthiristis",
+        "paralysis (brain hemorrhage)",
+        "peptic ulcer disea",
+        "pnuemonia",
+        "psoriasis",
+        "tuberculosis",
+        "typhoid",
+        "urinary tract infection",
+        "varicose veins"
+    ];
 
-    function addNewRecord(MedicalRecord.Symptoms[] symptoms, bool prognosis) {
+    constructor() public {
+        MedicalRecord dummyRecord = new MedicalRecord();
+        dummyRecord.setPID(0);
+        medicalDB.push(dummyRecord);
+    }
+
+    function addNewRecord(Symptoms[] memory symptoms, uint prognosis) public {
         MedicalRecord record = new MedicalRecord();
 
         // set all the symptoms field
@@ -21,6 +71,11 @@ contract Healthify {
         medicalDB.push(record);
     }
 
-
+    function viewMedicalRecordNumber(uint recordNumber) public view returns(MedicalRecord){
+        MedicalRecord reqRecord;
+        if (recordNumber < medicalDB.length)
+            reqRecord = medicalDB[recordNumber];
+        
+        return reqRecord;
+    }
 }
-
