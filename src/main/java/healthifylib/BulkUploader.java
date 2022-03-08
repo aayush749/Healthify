@@ -1,4 +1,4 @@
-package lib;
+package healthifylib;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,9 +15,6 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 
 import contracts.Healthify;
-import debugtest.Prognosis;
-import debugtest.PrognosisNotFoundException;
-import debugtest.Symptom;
 
 public class BulkUploader {
 	private CSVReader reader;
