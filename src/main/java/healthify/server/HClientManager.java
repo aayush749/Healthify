@@ -2,6 +2,7 @@ package healthify.server;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,11 +45,18 @@ public class HClientManager extends Thread {
 	}
 	
 	public void ParseMessage(String msg) {
-		if (msg.contains("GetBlocks")) {
-			int blocksCount = Integer.parseInt(msg.substring("GetBlocks ".length()));
-			BlockChainReader.GetBlocks(blocksCount);
-		} else {
-			System.out.println("Invalid command passed!");
+		try {
+			if (msg.contains("GetBlocks")) {
+				int blocksCount = Integer.parseInt(msg.substring("GetBlocks ".length()));
+				String blocksStr = BlockChainReader.GetBlocks(blocksCount);
+				PrintWriter socketOutputStream = new PrintWriter(clientSocket.getOutputStream());
+				socketOutputStream.println(blocksStr);
+				socketOutputStream.close();
+			} else {
+				System.out.println("Invalid command passed!");
+			}			
+		} catch(IOException e) {
+			System.out.println("Error sending block data. " + e.getMessage());
 		}
 	}
 }

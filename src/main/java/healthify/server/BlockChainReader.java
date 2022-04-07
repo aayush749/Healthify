@@ -2,7 +2,9 @@ package healthify.server;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
@@ -16,6 +18,7 @@ import healthifylib.Prognosis;
 import healthifylib.Symptom;
 
 public class BlockChainReader extends Thread {
+	private static final int SYMPTOM_COUNT = 131;
 	private static Healthify contract;
 	private static Web3j web3;
 	
@@ -25,9 +28,10 @@ public class BlockChainReader extends Thread {
 		web3 = BlockChain.getWeb3Instance();
 	}
 	
-	public static void GetBlocks(int blocksCount) {
+	@SuppressWarnings("finally")
+	public static String GetBlocks(int blocksCount) {
 		System.out.println("Requested " + blocksCount + " blocks.");
-		
+		String csvData = createHeaderRow();
 		try {
 			ArrayList<MedicalRecord> medicalRecordList = new ArrayList<MedicalRecord>();
 			
@@ -47,22 +51,58 @@ public class BlockChainReader extends Thread {
 				}
 			}
 			
-			System.out.println("There are " + medicalRecordList.size() + " records stored currently in the blockchain.");
+			System.out.println("There are " + medicalRecordList.size() + " records currently retrieved from the blockchain.");
 			
 			for (MedicalRecord record : medicalRecordList) {
 				List symptomsList = record.listAllSymptoms().send();
-				for (var symptomId : symptomsList) {
-					System.out.print(Symptom.getNameById((BigInteger)symptomId) + ", ");
-				}
-				System.out.print("\nPrognosis: " + Prognosis.getNameById(record.getPrognosis().send()));
-				System.out.println("\n====");
+				BigInteger prognosis = record.getPrognosis().send();
+
+				String tempCsvDataString = createCSVString(symptomsList, Prognosis.getNameById(prognosis));
+				csvData += tempCsvDataString;
 			}
-			
-			
 		}
 		catch(Exception e) {
 			System.out.println("Exception thrown while getting records: " + e.getMessage());
+		} finally {
+			return csvData;
 		}
+	}
+	
+	
+	
+	private static String createHeaderRow() {
+		String data = "";
+		for (int symptomID = 1; symptomID <= SYMPTOM_COUNT; symptomID++) {
+			data += Symptom.getNameById(symptomID);
+			if (symptomID != SYMPTOM_COUNT) {
+				data += ",";
+			} else {
+				data += ",Prognosis\n";
+			}
+		}
+		return data;
+	}
+
+
+
+	private static String createCSVString(List symptomsList, String prognosis) {
+		String data = "";
+		Set<BigInteger> symptomSet = new HashSet<BigInteger>(symptomsList);
+		for(int symptomID = 1; symptomID <= SYMPTOM_COUNT; symptomID++) {
+			if(symptomSet.contains(BigInteger.valueOf(symptomID))) {
+				data += '1';
+			} else {
+				data += '0';
+			}
+			
+			if (symptomID != SYMPTOM_COUNT) {
+				data += ",";
+			} else {
+				data += String.format(",%s\n", prognosis);
+			}
+		}
+//		System.out.println(data);
+		return data;
 	}
 	
 }

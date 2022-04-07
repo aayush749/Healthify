@@ -3,3 +3,4 @@
 /src/main/java/config/
 *.abi
 *.bin
+__pycache__/
