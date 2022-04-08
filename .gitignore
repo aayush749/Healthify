@@ -4,3 +4,7 @@
 *.abi
 *.bin
 __pycache__/
+*.class
+.vscode/
+config*.txt
+*.classpath
