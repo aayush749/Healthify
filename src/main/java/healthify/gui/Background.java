@@ -46,8 +46,6 @@ public class Background {
 	public Background() {
 		symptoms=new HashSet<String>();
 		initialize();
-		
-		
 	}
 
 	/**
@@ -125,21 +123,5 @@ public class Background {
 		frame.getContentPane().add(lblNewLabel_6);
 		frame.setBounds(100, 100, 936, 772);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 }
