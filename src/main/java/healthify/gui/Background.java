@@ -1,28 +1,35 @@
 package healthify.gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import java.awt.Color;
 
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.HashSet;
-import java.util.Set;
-import java.awt.event.ActionEvent;
+import com.kenai.jffi.Array;
 
-import java.awt.Rectangle;
+import healthifylib.Symptom;
 
 public class Background {
 
 	private JFrame frame;
-	private Set<String> symptoms;
+	private Set<String> selectedSymptoms;
+	private String[] symptomsList;
 	private JLabel lblNewLabel;
+	private String imagePath = "src/main/resources/images/robot_eye.png";
 	
 	/**
 	 * Launch the application.
@@ -44,7 +51,8 @@ public class Background {
 	 * Create the application.
 	 */
 	public Background() {
-		symptoms=new HashSet<String>();
+		selectedSymptoms = new HashSet<String>();
+		symptomsList = getSymptomsNames();
 		initialize();
 	}
 
@@ -71,8 +79,8 @@ public class Background {
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\Jarvis\\Downloads\\_removal.ai__tmp-6246f9c86901f_WZML6M-removebg-preview.png"));
-		lblNewLabel_3.setBounds(-48, 110, 423, 525);
+		lblNewLabel_3.setIcon(new ImageIcon(imagePath));
+		lblNewLabel_3.setBounds(-10, 130, 423, 525);
 		frame.getContentPane().add(lblNewLabel_3);
 		
 		final JLabel lblNewLabel_4 = new JLabel("Added symptoms are : ");
@@ -82,7 +90,7 @@ public class Background {
 		frame.getContentPane().add(lblNewLabel_4);
 		
 		final JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "5", "5", "6", "7", "8", "9", "9", "9", "9", "9", "9", "9", "9", "9"}));
+		comboBox.setModel(new DefaultComboBoxModel(symptomsList));
 		comboBox.setBounds(646, 214, 187, 45);
 		frame.getContentPane().add(comboBox);
 		
@@ -90,9 +98,9 @@ public class Background {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String temp= (String) comboBox.getItemAt(comboBox.getSelectedIndex()); 
-				symptoms.add(temp);
+				selectedSymptoms.add(temp);
 				
-				lblNewLabel_4.setText("Added Symptoms are : "+symptoms.toString());			}
+				lblNewLabel_4.setText("Added Symptoms are : "+selectedSymptoms.toString());			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton.setBounds(646, 284, 187, 45);
@@ -123,5 +131,20 @@ public class Background {
 		frame.getContentPane().add(lblNewLabel_6);
 		frame.setBounds(100, 100, 936, 772);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	private String[] getSymptomsNames() {
+		List<String> tempSymptomsLst = new ArrayList<>();
+		for(int symptomID = 1; ;symptomID++) {
+			try {
+				var symptomName = Symptom.getNameById(symptomID);				
+				tempSymptomsLst.add(symptomName);
+			} catch(ArrayIndexOutOfBoundsException e) {
+				break;
+			}
+		}
+		String[] result = tempSymptomsLst.toArray(new String[tempSymptomsLst.size()]);
+		Arrays.sort(result);
+		return result;
 	}
 }
