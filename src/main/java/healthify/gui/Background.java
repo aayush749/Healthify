@@ -19,9 +19,11 @@ import javax.swing.JLabel;
 public class Background {
 
 	private JFrame frame;
-	private Set<String> symptoms;
+	private Set<String> selectedSymptoms;
+	private String[] symptomsList;
 	private JLabel lblNewLabel;
-
+	private String imagePath = "src/main/resources/images/robot_eye.png";
+	
 	/**
 	 * Launch the application.
 	 */
@@ -42,10 +44,9 @@ public class Background {
 	 * Create the application.
 	 */
 	public Background() {
-		symptoms=new HashSet<String>();
+		selectedSymptoms = new HashSet<String>();
+		symptomsList = getSymptomsNames();
 		initialize();
-		
-		
 	}
 
 	/**
@@ -71,8 +72,8 @@ public class Background {
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\Jarvis\\Downloads\\OIP-(2)-transformed.png"));
-		lblNewLabel_3.setBounds(0, 101, 412, 509);
+		lblNewLabel_3.setIcon(new ImageIcon(imagePath));
+		lblNewLabel_3.setBounds(-10, 130, 423, 525);
 		frame.getContentPane().add(lblNewLabel_3);
 		
 		final JLabel lblNewLabel_4 = new JLabel("Added symptoms are : ");
@@ -82,7 +83,7 @@ public class Background {
 		frame.getContentPane().add(lblNewLabel_4);
 		
 		final JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "abdominal_pain", "abnormal_menstruation", "acidity", "acute_liver_failure", "altered_sensorium ", "anxiety ", "back_pain\t", "belly_pain\t", "blackheads ", "bladder_discomfort ", "blister\t", "blood_in_sputum\t", "bloody_stool\t", "blurred_and_distorted_vision", "breathlessness\t", "brittle_nails\t", "bruising", "burning_micturition", "chest_pain\tchills", "cold_hands_and_feets\tcoma", "congestion", "constipation", "continuous_feel_of_urine\t", "continuous_sneezing\t", "cough\tcramps", "dark_urine\tdehydration", "depression", "diarrhoea", "dischromic _patches", "distention_of_abdomen", "dizziness", "drying_and_tingling_lips", "enlarged_thyroid", "excessive_hunger", "extra_marital_contacts", "family_history\tfast_heart_rate", "fatigue", "fluid_overload\t", "foul_smell_of urine", "headache", "high_fever", "hip_joint_pain\t", "history_of_alcohol_consumption\t", "increased_appetite", "indigestion", "inflammatory_nails", "internal_itching", "irregular_sugar_level", "irritability", "irritation_in_anus", "itching\tjoint_pain", "knee_pain\tlack_of_concentration", "lethargy", "loss_of_appetite", "loss_of_balance", "loss_of_smell", "malaise", "mild_fever", "mood_swings", "movement_stiffness", "mucoid_sputum", "muscle_pain", "muscle_wasting", "muscle_weakness", "nausea\tneck_pain", "nodal_skin_eruptions", "obesity", "pain_behind_the_eyes", "pain_during_bowel_movements", "pain_in_anal_region", "painful_walking", "palpitations", "passage_of_gases", "patches_in_throat\tphlegm", "polyuria", "prominent_veins_on_calf", "puffy_face_and_eyes", "pus_filled_pimples", "receiving_blood_transfusion", "receiving_unsterile_injections", "red_sore_around_nose", "red_spots_over_body", "redness_of_eyes", "restlessness", "runny_nose", "rusty_sputum", "scurring", "shivering", "silver_like_dusting", "sinus_pressure", "skin_peeling", "skin_rash", "slurred_speech", "small_dents_in_nails", "spinning_movements", "spotting_ urination", "stiff_neck", "stomach_bleeding", "stomach_pain", "sunken_eyes", "sweating", "swelled_lymph_nodes", "swelling_joints", "swelling_of_stomach", "swollen_blood_vessels", "swollen_extremeties", "swollen_legs", "throat_irritation", "toxic_look_(typhos)", "ulcers_on_tongue", "unsteadiness", "visual_disturbances", "vomiting", "watering_from_eyes", "weakness_in_limbs", "weakness_of_one_body_side", "weight_gain", "weight_loss", "yellow_crust_ooze\t", "yellow_urine", "yellowing_of_eyes", "yellowish_skin"}));
+		comboBox.setModel(new DefaultComboBoxModel(symptomsList));
 		comboBox.setBounds(646, 214, 187, 45);
 		frame.getContentPane().add(comboBox);
 		
@@ -90,9 +91,9 @@ public class Background {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String temp= (String) comboBox.getItemAt(comboBox.getSelectedIndex()); 
-				symptoms.add(temp); 
+				selectedSymptoms.add(temp);
 				
-				lblNewLabel_4.setText("Added Symptoms are : "+symptoms.toString());			}
+				lblNewLabel_4.setText("Added Symptoms are : "+selectedSymptoms.toString());			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton.setBounds(646, 284, 187, 45);
@@ -189,5 +190,20 @@ public class Background {
 		
 		
 		
+	}
+	
+	private String[] getSymptomsNames() {
+		List<String> tempSymptomsLst = new ArrayList<>();
+		for(int symptomID = 1; ;symptomID++) {
+			try {
+				var symptomName = Symptom.getNameById(symptomID);				
+				tempSymptomsLst.add(symptomName);
+			} catch(ArrayIndexOutOfBoundsException e) {
+				break;
+			}
+		}
+		String[] result = tempSymptomsLst.toArray(new String[tempSymptomsLst.size()]);
+		Arrays.sort(result);
+		return result;
 	}
 }
