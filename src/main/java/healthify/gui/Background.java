@@ -6,7 +6,10 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
@@ -15,6 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import healthifylib.Symptom;
 
 public class Background {
 
@@ -164,7 +169,7 @@ public class Background {
 		JButton btnNewButton_4 = new JButton("Show Added Symptoms");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SymptomsList list=new SymptomsList(symptoms.toString());
+				SymptomsList list=new SymptomsList(symptomsList.toString());
 				list.setVisible(true);
 				
 			}
@@ -193,7 +198,7 @@ public class Background {
 	}
 	
 	private String[] getSymptomsNames() {
-		List<String> tempSymptomsLst = new ArrayList<>();
+		List<String> tempSymptomsLst = new ArrayList<String>();
 		for(int symptomID = 1; ;symptomID++) {
 			try {
 				var symptomName = Symptom.getNameById(symptomID);				
