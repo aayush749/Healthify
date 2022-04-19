@@ -27,7 +27,7 @@ public class Background {
 	private Set<String> selectedSymptoms;
 	private String[] symptomsList;
 	private JLabel lblNewLabel;
-	private String imagePath = "src/main/resources/images/robot_eye.png";
+	private String imagePath = "src/main/resources/images/robot.png";
 	
 	/**
 	 * Launch the application.
@@ -169,7 +169,7 @@ public class Background {
 		JButton btnNewButton_4 = new JButton("Show Added Symptoms");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SymptomsList list=new SymptomsList(symptomsList.toString());
+				SymptomsList list=new SymptomsList(Arrays.toString(symptomsList));
 				list.setVisible(true);
 				
 			}

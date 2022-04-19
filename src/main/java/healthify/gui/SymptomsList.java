@@ -10,8 +10,8 @@ import javax.swing.border.EmptyBorder;
 public class SymptomsList extends JFrame {
 
 	private JPanel contentPane;
-    private final int LETTER_WIDTH=20;
-    private final int LETTER_HEIGHT=20;
+    private final int LETTER_WIDTH=200;
+    private final int LETTER_HEIGHT=200;
     private final int LINE_LETTERS_NUM=10;
 	/**
 	 * Launch the application.
@@ -33,10 +33,11 @@ public class SymptomsList extends JFrame {
 		contentPane.add(lblNewLabel);
 	}
      
-	public SymptomsList(String Symptoms)
+	public SymptomsList(String symptoms)
 	{
-		int window_width=LETTER_WIDTH*LINE_LETTERS_NUM;
-		int window_height=LETTER_HEIGHT*(Symptoms.length()/LINE_LETTERS_NUM);
+		int window_width = LETTER_WIDTH * LINE_LETTERS_NUM;
+		int window_height = LETTER_HEIGHT * (symptoms.length() / LINE_LETTERS_NUM);
+		symptoms = stuffNewLine(symptoms);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, window_width, window_height);
 		contentPane = new JPanel();
@@ -48,7 +49,19 @@ public class SymptomsList extends JFrame {
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setBounds(0, 0,window_width, window_height);
 		contentPane.add(lblNewLabel);
-		lblNewLabel.setText(Symptoms);
+		lblNewLabel.setText(symptoms);
+	}
+	
+	private String stuffNewLine(String symptoms) {
+		String stuffedSymptoms = "";
 		
+		for (int i = 0; i < symptoms.length(); i++) {
+			if ((i + 1) % LINE_LETTERS_NUM == 0) {
+				stuffedSymptoms += "\n";
+			}
+			stuffedSymptoms += symptoms.charAt(i);
+		}
+		
+		return stuffedSymptoms;
 	}
 }
