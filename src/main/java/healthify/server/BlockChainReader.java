@@ -28,46 +28,8 @@ public class BlockChainReader extends Thread {
 		web3 = BlockChain.getWeb3Instance();
 	}
 	
-	@SuppressWarnings("finally")
 	public static String GetBlocks(int blocksCount) {
-		System.out.println("Requested " + blocksCount + " blocks.");
-		String csvData = createHeaderRow();
-		try {
-			ArrayList<MedicalRecord> medicalRecordList = new ArrayList<MedicalRecord>();
-			
-			int cur_rec_num = 0;
-			Credentials credentials = BlockChain.getCredentialsFromPrivateKey();
-			ContractGasProvider gasProvider = new DefaultGasProvider();
-			// Create an alias for the contract object
-			var healthify = contract;
-			while(true) {
-				String address = healthify.viewMedicalRecordNumber(BigInteger.valueOf(cur_rec_num)).send();
-				if(!address.contains("0x00") && cur_rec_num < blocksCount) {
-					medicalRecordList.add(MedicalRecord.load(address, web3, credentials, gasProvider));
-					cur_rec_num++;
-				}
-				else {
-					break;
-				}
-			}
-			
-            
-
-			System.out.println("There are " + medicalRecordList.size() + " records currently retrieved from the blockchain.");
-			
-			for (MedicalRecord record : medicalRecordList) {
-				List symptomsList = record.listAllSymptoms().send();
-				BigInteger prognosis = record.getPrognosis().send();
-
-				String tempCsvDataString = createCSVString(symptomsList, Prognosis.getNameById(prognosis));
-				csvData += tempCsvDataString;
-			}
-		}
-		catch(Exception e) {
-			System.out.println("Exception thrown while getting records: " + e.getMessage());
-		} finally {
-			return csvData;
-		}
+		return GetBlocks(blocksCount, 2);
 	}
 	
 	@SuppressWarnings("finally")
@@ -75,18 +37,22 @@ public class BlockChainReader extends Thread {
 		System.out.println("Requested " + blocksCount + " blocks.");
 		String csvData = createHeaderRow();
 		try {
-			ArrayList<MedicalRecord> medicalRecordList = new ArrayList<MedicalRecord>();
-		
-			int cur_rec_num = start_block == 0 ? 0 : start_block-1;
+			int cur_rec_idx = start_block == 0 ? 0 : start_block-1;	//The index of current record
 			Credentials credentials = BlockChain.getCredentialsFromPrivateKey();
 			ContractGasProvider gasProvider = new DefaultGasProvider();
 			// Create an alias for the contract object
 			var healthify = contract;
 			while(true) {
-				String address = healthify.viewMedicalRecordNumber(BigInteger.valueOf(cur_rec_num)).send();
-				if(!address.contains("0x00") && cur_rec_num < blocksCount) {
-					medicalRecordList.add(MedicalRecord.load(address, web3, credentials, gasProvider));
-					cur_rec_num++;
+				String address = healthify.viewMedicalRecordNumber(BigInteger.valueOf(cur_rec_idx)).send();
+				if(!address.contains("0x00") && (cur_rec_idx - 1) < blocksCount) {
+					MedicalRecord record = MedicalRecord.load(address, web3, credentials, gasProvider);
+					List symptomsList = record.listAllSymptoms().send();
+					BigInteger prognosis = record.getPrognosis().send();
+					String tempCsvDataString = createCSVString(symptomsList, Prognosis.getNameById(prognosis));
+					csvData += tempCsvDataString;
+					
+					// increment the current record number counter index
+					cur_rec_idx++;
 				}
 				else {
 					break;
