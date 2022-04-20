@@ -25,11 +25,10 @@ import healthifylib.Symptom;
 
 public class Background {
 
-	private JFrame frame;
+	private JFrame mainWindowFrame;
 	private Set<String> selectedSymptoms;
 	private String[] symptomsList;
 	private String[] prognosisList;
-	private JLabel lblNewLabel;
 	private String imagePath = "src/main/resources/images/robot.png";
 	
 	/**
@@ -40,7 +39,7 @@ public class Background {
 			public void run() {
 				try {
 					Background window = new Background();
-					window.frame.setVisible(true);
+					window.mainWindowFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -62,123 +61,123 @@ public class Background {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setMaximizedBounds(new Rectangle(5000000, 5000000, 5000000, 5000000));
-		frame.getContentPane().setForeground(Color.DARK_GRAY);
-		frame.getContentPane().setBackground(Color.DARK_GRAY);
-		frame.getContentPane().setLayout(null);
+		mainWindowFrame = new JFrame();
+		mainWindowFrame.setMaximizedBounds(new Rectangle(5000000, 5000000, 5000000, 5000000));
+		mainWindowFrame.getContentPane().setForeground(Color.DARK_GRAY);
+		mainWindowFrame.getContentPane().setBackground(Color.DARK_GRAY);
+		mainWindowFrame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Healthify");
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblNewLabel_1.setBounds(598, 34, 187, 45);
-		frame.getContentPane().add(lblNewLabel_1);
+		JLabel mainTitleLabel = new JLabel("Healthify");
+		mainTitleLabel.setForeground(Color.WHITE);
+		mainTitleLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		mainTitleLabel.setBounds(598, 34, 187, 45);
+		mainWindowFrame.getContentPane().add(mainTitleLabel);
 		
-		JLabel lblNewLabel_2 = new JLabel("A Blockchain based Disease Prediction System");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setBounds(457, 91, 623, 35);
-		frame.getContentPane().add(lblNewLabel_2);
+		JLabel descriptionTitleLabel = new JLabel("A Blockchain based Medical Record Storage System");
+		descriptionTitleLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		descriptionTitleLabel.setForeground(Color.WHITE);
+		descriptionTitleLabel.setBounds(457, 91, 623, 35);
+		mainWindowFrame.getContentPane().add(descriptionTitleLabel);
 		
-		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setIcon(new ImageIcon(imagePath));
-		lblNewLabel_3.setBounds(-10, 130, 423, 525);
-		frame.getContentPane().add(lblNewLabel_3);
+		JLabel leftSideImageHolderLabel = new JLabel("Left_Image");
+		leftSideImageHolderLabel.setIcon(new ImageIcon(imagePath));
+		leftSideImageHolderLabel.setBounds(-10, 130, 423, 525);
+		mainWindowFrame.getContentPane().add(leftSideImageHolderLabel);
 		
-		final JLabel lblNewLabel_4 = new JLabel("Added symptoms are : ");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_4.setForeground(Color.WHITE);
-		lblNewLabel_4.setBounds(470, 522, 911, 77);
-		frame.getContentPane().add(lblNewLabel_4);
+		final JLabel peekSymptomsLabel = new JLabel("Added symptoms are : ");
+		peekSymptomsLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		peekSymptomsLabel.setForeground(Color.WHITE);
+		peekSymptomsLabel.setBounds(470, 522, 911, 77);
+		mainWindowFrame.getContentPane().add(peekSymptomsLabel);
 		
-		final JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(symptomsList));
-		comboBox.setBounds(646, 214, 187, 45);
-		frame.getContentPane().add(comboBox);
+		final JComboBox symptomsListComboBox = new JComboBox();
+		symptomsListComboBox.setModel(new DefaultComboBoxModel(symptomsList));
+		symptomsListComboBox.setBounds(646, 214, 187, 45);
+		mainWindowFrame.getContentPane().add(symptomsListComboBox);
 		
-		JButton btnNewButton = new JButton("Add ");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton addSymptomButton = new JButton("Add ");
+		addSymptomButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String temp= (String) comboBox.getItemAt(comboBox.getSelectedIndex()); 
+				String temp= (String) symptomsListComboBox.getItemAt(symptomsListComboBox.getSelectedIndex()); 
 				selectedSymptoms.add(temp);
 				
-				lblNewLabel_4.setText("Added Symptoms are : "+selectedSymptoms.toString());			}
+				peekSymptomsLabel.setText("Added Symptoms are : "+selectedSymptoms.toString());			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton.setBounds(646, 284, 187, 45);
-		frame.getContentPane().add(btnNewButton); 
+		addSymptomButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		addSymptomButton.setBounds(646, 284, 187, 45);
+		mainWindowFrame.getContentPane().add(addSymptomButton); 
 		
 		
 		
-		JButton btnNewButton_1 = new JButton("Submit");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton submitButton = new JButton("Submit");
+		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 			}
 		});
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton_1.setBounds(646, 601, 187, 45);
-		frame.getContentPane().add(btnNewButton_1);
+		submitButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		submitButton.setBounds(646, 601, 187, 45);
+		mainWindowFrame.getContentPane().add(submitButton);
 		
-		JLabel lblNewLabel_6 = new JLabel("Enter your symptoms :");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_6.setForeground(Color.WHITE);
-		lblNewLabel_6.setBounds(470, 208, 187, 53);
-		frame.getContentPane().add(lblNewLabel_6);
+		JLabel enterYourSymptomLabel = new JLabel("Enter your symptoms :");
+		enterYourSymptomLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		enterYourSymptomLabel.setForeground(Color.WHITE);
+		enterYourSymptomLabel.setBounds(470, 208, 187, 53);
+		mainWindowFrame.getContentPane().add(enterYourSymptomLabel);
 		
-		JLabel lblNewLabel_5 = new JLabel("Enter the prgonosis :");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_5.setForeground(Color.WHITE);
-		lblNewLabel_5.setBounds(470, 384, 160, 35);
-		frame.getContentPane().add(lblNewLabel_5);
+		JLabel enterPrognosisLabel = new JLabel("Enter the prgonosis :");
+		enterPrognosisLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		enterPrognosisLabel.setForeground(Color.WHITE);
+		enterPrognosisLabel.setBounds(470, 384, 160, 35);
+		mainWindowFrame.getContentPane().add(enterPrognosisLabel);
 		
-		final JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(prognosisList));
-		comboBox_1.setBounds(646, 377, 187, 52);
-		frame.getContentPane().add(comboBox_1);
+		final JComboBox  prognosisListComboBox = new JComboBox();
+		prognosisListComboBox.setModel(new DefaultComboBoxModel(prognosisList));
+		prognosisListComboBox.setBounds(646, 377, 187, 52);
+		mainWindowFrame.getContentPane().add(prognosisListComboBox);
 		
 		
-		final JLabel lblNewLabel_7 = new JLabel("Added prognosis is : ");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_7.setForeground(Color.WHITE);
-		lblNewLabel_7.setBounds(934, 214, 447, 47);
-		frame.getContentPane().add(lblNewLabel_7);
-		frame.setBounds(100, 100, 1405, 747);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		final JLabel prognosisPeekLabel = new JLabel("Added prognosis is : ");
+		prognosisPeekLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		prognosisPeekLabel.setForeground(Color.WHITE);
+		prognosisPeekLabel.setBounds(934, 214, 447, 47);
+		mainWindowFrame.getContentPane().add(prognosisPeekLabel);
+		mainWindowFrame.setBounds(100, 100, 1405, 747);
+		mainWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JButton btnNewButton_2 = new JButton("Add ");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton addPrognosisButton = new JButton("Add ");
+		addPrognosisButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String temp= (String) comboBox_1.getItemAt(comboBox_1.getSelectedIndex()); 
+				String temp= (String) prognosisListComboBox.getItemAt(prognosisListComboBox.getSelectedIndex()); 
 				
-				lblNewLabel_7.setText("Added Prognosis is : "+temp);	
+				prognosisPeekLabel.setText("Added Prognosis is : "+temp);	
 			}
 		}); 
-		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton_2.setBounds(646, 467, 187, 45);
-		frame.getContentPane().add(btnNewButton_2);
+		addPrognosisButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		addPrognosisButton.setBounds(646, 467, 187, 45);
+		mainWindowFrame.getContentPane().add(addPrognosisButton);
 		 
-		JButton btnNewButton_3 = new JButton("Add CSV File");
-		btnNewButton_3.addActionListener(new ActionListener() {
+		JButton bulkUploaderModeSelectButton = new JButton("Insert Records from CSV file");
+		bulkUploaderModeSelectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CsvPathReader file=new CsvPathReader();
-				frame.dispose();
+				mainWindowFrame.dispose();
 				file.setVisible(true);
 			}
 		});
-		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton_3.setBounds(952, 459, 262, 53);
-		frame.getContentPane().add(btnNewButton_3);
+		bulkUploaderModeSelectButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		bulkUploaderModeSelectButton.setBounds(952, 459, 262, 53);
+		mainWindowFrame.getContentPane().add(bulkUploaderModeSelectButton);
 		
-		JButton btnNewButton_4 = new JButton("Show Added Symptoms");
-		btnNewButton_4.addActionListener(new ActionListener() {
+		JButton showAddedSymptomsButton = new JButton("Show Added Symptoms");
+		showAddedSymptomsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Selected symptoms are\n" + selectedSymptoms.toString());
 			}
 		});
-		btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton_4.setBounds(934, 284, 240, 45);
-		frame.getContentPane().add(btnNewButton_4); 
+		showAddedSymptomsButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		showAddedSymptomsButton.setBounds(934, 284, 240, 45);
+		mainWindowFrame.getContentPane().add(showAddedSymptomsButton); 
 	}
 	
 	private String[] getSymptomsNames() {
