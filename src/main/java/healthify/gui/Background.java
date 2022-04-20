@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import healthifylib.Symptom;
 
@@ -169,32 +170,12 @@ public class Background {
 		JButton btnNewButton_4 = new JButton("Show Added Symptoms");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SymptomsList list=new SymptomsList(Arrays.toString(symptomsList));
-				list.setVisible(true);
-				
+				JOptionPane.showMessageDialog(null, "Selected symptoms are\n" + selectedSymptoms.toString());
 			}
 		});
 		btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton_4.setBounds(934, 284, 240, 45);
 		frame.getContentPane().add(btnNewButton_4); 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 	
 	private String[] getSymptomsNames() {
