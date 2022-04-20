@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import healthifylib.Prognosis;
 import healthifylib.Symptom;
 
 public class Background {
@@ -27,6 +28,7 @@ public class Background {
 	private JFrame frame;
 	private Set<String> selectedSymptoms;
 	private String[] symptomsList;
+	private String[] prognosisList;
 	private JLabel lblNewLabel;
 	private String imagePath = "src/main/resources/images/robot.png";
 	
@@ -52,6 +54,7 @@ public class Background {
 	public Background() {
 		selectedSymptoms = new HashSet<String>();
 		symptomsList = getSymptomsNames();
+		prognosisList = getPrognosisNames();
 		initialize();
 	}
 
@@ -130,7 +133,7 @@ public class Background {
 		frame.getContentPane().add(lblNewLabel_5);
 		
 		final JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "3", "3", "3", "4", "5", "6", "7", "8", "9"}));
+		comboBox_1.setModel(new DefaultComboBoxModel(prognosisList));
 		comboBox_1.setBounds(646, 377, 187, 52);
 		frame.getContentPane().add(comboBox_1);
 		
@@ -189,6 +192,21 @@ public class Background {
 			}
 		}
 		String[] result = tempSymptomsLst.toArray(new String[tempSymptomsLst.size()]);
+		Arrays.sort(result);
+		return result;
+	}
+	
+	private String[] getPrognosisNames() {
+		List<String> tempPrognosisLst = new ArrayList<String>();
+		for(int prognosisID = 1; ;prognosisID++) {
+			try {
+				var prognosisName = Prognosis.getNameById(prognosisID);				
+				tempPrognosisLst.add(prognosisName);
+			} catch(ArrayIndexOutOfBoundsException e) {
+				break;
+			}
+		}
+		String[] result = tempPrognosisLst.toArray(new String[tempPrognosisLst.size()]);
 		Arrays.sort(result);
 		return result;
 	}

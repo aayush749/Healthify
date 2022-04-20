@@ -53,8 +53,17 @@ public class Prognosis {
 		String[] words = prognosisName.split(" ");
 		String consolidatedPrognosisName = "";
 		for(var word : words) {
-			
-			consolidatedPrognosisName += word.substring(0, 1).toUpperCase() + word.substring(1) + " ";
+			word = word.replace(" ", "");
+			if (word.length() == 0) {
+				continue;
+			}
+			try {
+				char firstChar = Character.toUpperCase(word.charAt(0));
+				consolidatedPrognosisName += firstChar;
+			} catch (Exception e) {
+				System.out.println("Error parsing first character of " + word + ". [Error] " + e.getMessage());
+			}
+			consolidatedPrognosisName += word.substring(1) + " ";
 		}
 		
 		return consolidatedPrognosisName.strip();
