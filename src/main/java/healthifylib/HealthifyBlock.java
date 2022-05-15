@@ -11,9 +11,15 @@ public class HealthifyBlock implements Block {
 	private List m_SymptomsList;
 	private String m_Prognosis;
 	
-	HealthifyBlock(List symptomsList, String prognosis) {
+	static {
+		m_HeaderRow = BlockChainReader.createHeaderRow();
+	}
+	
+	public HealthifyBlock(List symptomsList, String prognosis) {
 		m_SymptomsList = symptomsList;
 		m_Prognosis = prognosis;
+		
+		m_CsvString = "";
 	}
 	
 	@Override
@@ -27,12 +33,8 @@ public class HealthifyBlock implements Block {
 		return m_CsvString;
 	}
 
-	@Override
-	public String getBlockHeaderCSV() {
-		if (m_HeaderRow.isBlank()) {
-			m_HeaderRow = BlockChainReader.createHeaderRow();			
-		}
-		return m_CsvString;
+	public static String getBlockHeaderCSV() {
+		return m_HeaderRow;
 	}
 
 }

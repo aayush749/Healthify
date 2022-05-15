@@ -3,6 +3,8 @@ package healthifylib;
 import java.util.ArrayList;
 import java.util.List;
 
+import healthify.server.BlockChainReader;
+
 public class SimpleBlockCache implements BlockCache {
 	// determines how many blocks can be cached on a single thread
 	private static final int SINGLE_THREAD_BLOCK_CACHE_THRESHOLD = 10;
@@ -12,6 +14,7 @@ public class SimpleBlockCache implements BlockCache {
 	
 	public SimpleBlockCache()
 	{
+		m_BlockHeaderString = "";
 		m_Cache = new ArrayList<Block>();
 	}
 	
@@ -40,16 +43,22 @@ public class SimpleBlockCache implements BlockCache {
 
 	private void InitBlockHeader() {
 		// initialize block header if not already initialized
-		if (m_BlockHeaderString.isBlank() && m_Cache.size() != 0) {
-			m_BlockHeaderString = m_Cache.get(0).getBlockHeaderCSV();
+		if (m_BlockHeaderString.isBlank()) {
+			m_BlockHeaderString = HealthifyBlock.getBlockHeaderCSV();
 		}
 	}
 
 	@Override
-	public String getFirstNBlocks(int numBlocks) {
+	public String getNBlocks(int numBlocks) {
+		return getNBlocks(numBlocks, 1);
+	}
+	
+	@Override
+	public String getNBlocks(int numBlocks, int startBlock) {
+		InitBlockHeader();
 		String blockCsvStr = m_BlockHeaderString;
-		if (numBlocks >= 0) {
-			for(int curBlockID = 1; curBlockID <= numBlocks; curBlockID++) {
+		if (numBlocks > 0) {
+			for(int curBlockID = startBlock - 1; curBlockID < numBlocks; curBlockID++) {
 				blockCsvStr += m_Cache.get(curBlockID).getCSVString();
 			}
 		}
