@@ -65,7 +65,7 @@ public class BlockChainReader extends Thread {
 		}
 	}		
 	
-	private static String createHeaderRow() {
+	public static String createHeaderRow() {
 		String data = "";
 		for (int symptomID = 1; symptomID <= SYMPTOM_COUNT; symptomID++) {
 			data += Symptom.getNameById(symptomID);
@@ -80,7 +80,7 @@ public class BlockChainReader extends Thread {
 
 
 
-	private static String createCSVString(List symptomsList, String prognosis) {
+	public static String createCSVString(List symptomsList, String prognosis) {
 		String data = "";
 		Set<BigInteger> symptomSet = new HashSet<BigInteger>(symptomsList);
 		for(int symptomID = 1; symptomID <= SYMPTOM_COUNT; symptomID++) {
