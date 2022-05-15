@@ -8,24 +8,31 @@ public class HealthifyBlock implements Block {
 	private static String m_HeaderRow;
 	private String m_CsvString;
 	
+	private List m_SymptomsList;
+	private String m_Prognosis;
+	
 	HealthifyBlock(List symptomsList, String prognosis) {
-		if (m_HeaderRow.isBlank()) {
-			m_HeaderRow = BlockChainReader.createHeaderRow();			
-		}
-		if (m_CsvString.isBlank()) {
-			m_CsvString = BlockChainReader.createCSVString(symptomsList, prognosis);
-		}
+		m_SymptomsList = symptomsList;
+		m_Prognosis = prognosis;
 	}
 	
 	@Override
 	public String getCSVString() {
-		// TODO Auto-generated method stub
-		return null;
+		if (m_CsvString.isBlank()) {
+			m_CsvString = BlockChainReader.createCSVString(
+															m_SymptomsList,
+															m_Prognosis
+															);
+		}
+		return m_CsvString;
 	}
 
 	@Override
 	public String getBlockHeaderCSV() {
-		return m_HeaderRow;
+		if (m_HeaderRow.isBlank()) {
+			m_HeaderRow = BlockChainReader.createHeaderRow();			
+		}
+		return m_CsvString;
 	}
 
 }
