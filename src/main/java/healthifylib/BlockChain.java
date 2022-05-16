@@ -49,21 +49,28 @@ public class BlockChain {
 				
 				System.out.println("Deployed Contract!");
 			}
+			isSetUp = true;
 		} else {
 			System.out.println("BlockChain set up already performed!");
 		}
 	}
 	
 	public static Web3j getWeb3Instance() {
+		if(!isSetUp) {
+			init();
+		}
 		return web3;
 	}
 	
 	public static Healthify getDeployedContract() {
+		if(!isSetUp) {
+			init();
+		}
 		return healthify;
 	}
 	
 	public static String getExistingContractAddress() {
-		String address = ConfigManager.getContactAddressFromConfigFile();
+		String address = ConfigManager.getContractAddressFromConfigFile();
 		
 		return address;
 	}
@@ -73,8 +80,11 @@ public class BlockChain {
 	}
 	
 	public static Healthify deployContract() {
+		if(!isSetUp) {
+			init();
+		}
 		try {
-			Healthify healthify = Healthify.deploy(web3, getCredentialsFromPrivateKey(), new DefaultGasProvider()).send();
+			healthify = Healthify.deploy(web3, getCredentialsFromPrivateKey(), new DefaultGasProvider()).send();
 			return healthify;
 		} catch (Exception e) {
 			e.printStackTrace();

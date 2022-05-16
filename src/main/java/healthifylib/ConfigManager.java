@@ -30,7 +30,7 @@ class ConfigManager {
 		}
 	}
 	
-	public static String getContactAddressFromConfigFile() {
+	public static String getContractAddressFromConfigFile() {
 		String address = null;
 		try {
 			FileReader reader = new FileReader(m_ConfigDirPath + "deployement_status.txt");

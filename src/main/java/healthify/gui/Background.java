@@ -6,8 +6,10 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +22,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
+
+import healthifylib.BlockChain;
 import healthifylib.Prognosis;
 import healthifylib.Symptom;
 
@@ -30,6 +35,10 @@ public class Background {
 	private String[] symptomsList;
 	private String[] prognosisList;
 	private String imagePath = "src/main/resources/images/robot.png";
+	private String prognosisSelected = "";
+	
+	private HashMap<String, Integer> symptomNameToIDMapping;
+	private HashMap<String, Integer> prognosisNameToIDMapping;
 	
 	/**
 	 * Launch the application.
@@ -52,6 +61,8 @@ public class Background {
 	 */
 	public Background() {
 		selectedSymptoms = new HashSet<String>();
+		symptomNameToIDMapping = new HashMap<String, Integer>();
+		prognosisNameToIDMapping = new HashMap<String, Integer>();
 		symptomsList = getSymptomsNames();
 		prognosisList = getPrognosisNames();
 		initialize();
@@ -101,7 +112,8 @@ public class Background {
 				String temp= (String) symptomsListComboBox.getItemAt(symptomsListComboBox.getSelectedIndex()); 
 				selectedSymptoms.add(temp);
 				
-				peekSymptomsLabel.setText("Added Symptoms are : "+selectedSymptoms.toString());			}
+				peekSymptomsLabel.setText("Added Symptoms are : " + selectedSymptoms.toString());
+			}
 		});
 		addSymptomButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		addSymptomButton.setBounds(646, 284, 187, 45);
@@ -112,8 +124,32 @@ public class Background {
 		JButton submitButton = new JButton("Submit");
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				var healthifyContract = BlockChain.getDeployedContract();
+				if(healthifyContract != null) {
+					List<BigInteger> selectedSymptomsList = new ArrayList<>();
+					for(String symptom : selectedSymptoms) {
+						BigInteger id = BigInteger.valueOf(getSymptomID(symptom));
+						selectedSymptomsList.add(id);
+					}
+					BigInteger prognosisID = BigInteger.valueOf(getPrognosisID(prognosisSelected));
+					
+					try {
+						TransactionReceipt receipt = healthifyContract.addNewRecord(selectedSymptomsList, prognosisID).send();
+			
+						// show info
+						JOptionPane.showMessageDialog(mainWindowFrame, String.format("Your info on adding a new record is: %s", receipt.getStatus()));
+					} catch (Exception recordAdditionException) {
+						JOptionPane.showMessageDialog(
+														mainWindowFrame, 
+														String.format("Error in adding new record, probably blockchain connectivity is lost: %s", recordAdditionException)
+													  );
+					}
+				} else {
+					JOptionPane.showMessageDialog(mainWindowFrame, "Error either in loading smart contract or connecting to blockchain server!");
+				}
 			}
+
+			
 		});
 		submitButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		submitButton.setBounds(646, 601, 187, 45);
@@ -148,9 +184,9 @@ public class Background {
 		JButton addPrognosisButton = new JButton("Add ");
 		addPrognosisButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String temp= (String) prognosisListComboBox.getItemAt(prognosisListComboBox.getSelectedIndex()); 
+				prognosisSelected = (String) prognosisListComboBox.getItemAt(prognosisListComboBox.getSelectedIndex()); 
 				
-				prognosisPeekLabel.setText("Added Prognosis is : "+temp);	
+				prognosisPeekLabel.setText("Added Prognosis is : " + prognosisSelected);	
 			}
 		}); 
 		addPrognosisButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -186,6 +222,8 @@ public class Background {
 			try {
 				var symptomName = Symptom.getNameById(symptomID);				
 				tempSymptomsLst.add(symptomName);
+				
+				symptomNameToIDMapping.put(symptomName, symptomID);
 			} catch(ArrayIndexOutOfBoundsException e) {
 				break;
 			}
@@ -201,6 +239,8 @@ public class Background {
 			try {
 				var prognosisName = Prognosis.getNameById(prognosisID);				
 				tempPrognosisLst.add(prognosisName);
+				
+				prognosisNameToIDMapping.put(prognosisName, prognosisID);
 			} catch(ArrayIndexOutOfBoundsException e) {
 				break;
 			}
@@ -208,5 +248,13 @@ public class Background {
 		String[] result = tempPrognosisLst.toArray(new String[tempPrognosisLst.size()]);
 		Arrays.sort(result);
 		return result;
+	}
+	
+	private int getSymptomID(String symptom) {
+		return symptomNameToIDMapping.get(symptom);
+	}
+	
+	private int getPrognosisID(String prognosis) {
+		return prognosisNameToIDMapping.get(prognosis);
 	}
 }
