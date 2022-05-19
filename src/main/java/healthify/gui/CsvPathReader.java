@@ -49,30 +49,37 @@ public class CsvPathReader extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		final JLabel lblNewLabel = new JLabel("Added File path is :");
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setBackground(Color.DARK_GRAY);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(63, 372, 755, 116);
-		contentPane.add(lblNewLabel);
+		this.setTitle("Bulk Uploader");
 		
-		JButton btnNewButton = new JButton("Add File Path");
-		btnNewButton.addActionListener(new ActionListener() {
+		final JLabel addedFilePathLabel = new JLabel("Added File path is :");
+		addedFilePathLabel.setForeground(Color.WHITE);
+		addedFilePathLabel.setBackground(Color.DARK_GRAY);
+		addedFilePathLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		addedFilePathLabel.setBounds(63, 372, 755, 116);
+		contentPane.add(addedFilePathLabel);
+		
+		JButton addFilePathButton = new JButton("Add File Path");
+		addFilePathButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser= new JFileChooser();
 				fileChooser.showOpenDialog(null);//select file to open
 				File path=new File(fileChooser.getSelectedFile().getAbsolutePath());
-				lblNewLabel.setText("File path is : "+path.toString());
+				addedFilePathLabel.setText("File path is : "+path.toString());
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton.setBounds(523, 275, 222, 51);
-		contentPane.add(btnNewButton);
+		addFilePathButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		addFilePathButton.setBounds(520, 194, 222, 51);
+		contentPane.add(addFilePathButton);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setIcon(new ImageIcon("src/main/resources/images/robot_hand.png"));
 		lblNewLabel_1.setBounds(64, 58, 271, 326);
 		contentPane.add(lblNewLabel_1);
+		
+		JButton bulkUploadButton = new JButton("Bulk Upload Data");
+		bulkUploadButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		bulkUploadButton.setBounds(520, 287, 222, 51);
+		contentPane.add(bulkUploadButton);
 		
 		
 	}

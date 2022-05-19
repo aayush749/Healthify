@@ -77,6 +77,7 @@ public class Background {
 		mainWindowFrame.getContentPane().setForeground(Color.DARK_GRAY);
 		mainWindowFrame.getContentPane().setBackground(Color.DARK_GRAY);
 		mainWindowFrame.getContentPane().setLayout(null);
+		mainWindowFrame.setTitle("Healthify");
 		
 		JLabel mainTitleLabel = new JLabel("Healthify");
 		mainTitleLabel.setForeground(Color.WHITE);
@@ -181,17 +182,17 @@ public class Background {
 		mainWindowFrame.setBounds(100, 100, 1405, 747);
 		mainWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JButton addPrognosisButton = new JButton("Add ");
-		addPrognosisButton.addActionListener(new ActionListener() {
+		JButton selectPrognosisButton = new JButton("Select");
+		selectPrognosisButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				prognosisSelected = (String) prognosisListComboBox.getItemAt(prognosisListComboBox.getSelectedIndex()); 
 				
 				prognosisPeekLabel.setText("Added Prognosis is : " + prognosisSelected);	
 			}
 		}); 
-		addPrognosisButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		addPrognosisButton.setBounds(646, 467, 187, 45);
-		mainWindowFrame.getContentPane().add(addPrognosisButton);
+		selectPrognosisButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		selectPrognosisButton.setBounds(646, 467, 187, 45);
+		mainWindowFrame.getContentPane().add(selectPrognosisButton);
 		 
 		JButton bulkUploaderModeSelectButton = new JButton("Insert Records from CSV file");
 		bulkUploaderModeSelectButton.addActionListener(new ActionListener() {
