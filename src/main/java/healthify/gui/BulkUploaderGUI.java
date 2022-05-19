@@ -15,14 +15,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class CsvPathReader extends JFrame {
+import healthifylib.BlockChain;
+import healthifylib.BulkUploader;
+
+public class BulkUploaderGUI extends JFrame {
 
 	private JPanel contentPane;
+	private File path;
+	private BulkUploader uploader;
 
 	/**
 	 * Create the frame.
 	 */
-	public CsvPathReader(Image icon) {
+	public BulkUploaderGUI(Image icon) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 875, 595);
 		contentPane = new JPanel();
@@ -47,7 +52,7 @@ public class CsvPathReader extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser= new JFileChooser();
 				fileChooser.showOpenDialog(null);//select file to open
-				File path=new File(fileChooser.getSelectedFile().getAbsolutePath());
+				path = new File(fileChooser.getSelectedFile().getAbsolutePath());
 				addedFilePathLabel.setText("File path is : "+path.toString());
 			}
 		});
@@ -55,12 +60,22 @@ public class CsvPathReader extends JFrame {
 		addFilePathButton.setBounds(520, 194, 222, 51);
 		contentPane.add(addFilePathButton);
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setIcon(new ImageIcon("src/main/resources/images/robot_hand.png"));
-		lblNewLabel_1.setBounds(64, 58, 271, 326);
-		contentPane.add(lblNewLabel_1);
+		JLabel filePathLabel = new JLabel("FilePathLabel");
+		filePathLabel.setIcon(new ImageIcon("src/main/resources/images/robot_hand.png"));
+		filePathLabel.setBounds(64, 58, 271, 326);
+		contentPane.add(filePathLabel);
 		
 		JButton bulkUploadButton = new JButton("Bulk Upload Data");
+		bulkUploadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				uploader = new BulkUploader(
+														 path.getAbsolutePath(),
+														 BlockChain.getDeployedContract()
+														 );
+				uploader.bulkUploadToBlockchain();
+			}
+		});
+		
 		bulkUploadButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		bulkUploadButton.setBounds(520, 287, 222, 51);
 		contentPane.add(bulkUploadButton);

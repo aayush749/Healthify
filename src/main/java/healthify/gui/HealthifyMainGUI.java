@@ -32,7 +32,7 @@ import healthifylib.BlockChain;
 import healthifylib.Prognosis;
 import healthifylib.Symptom;
 
-public class Background {
+public class HealthifyMainGUI {
 
 	private JFrame mainWindowFrame;
 	private Set<String> selectedSymptoms;
@@ -53,7 +53,7 @@ public class Background {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Background window = new Background();
+					HealthifyMainGUI window = new HealthifyMainGUI();
 					window.mainWindowFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,7 +65,7 @@ public class Background {
 	/**
 	 * Create the application.
 	 */
-	public Background() {
+	public HealthifyMainGUI() {
 		selectedSymptoms = new HashSet<String>();
 		symptomNameToIDMapping = new HashMap<String, Integer>();
 		prognosisNameToIDMapping = new HashMap<String, Integer>();
@@ -210,7 +210,7 @@ public class Background {
 		JButton bulkUploaderModeSelectButton = new JButton("Insert Records from CSV file");
 		bulkUploaderModeSelectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CsvPathReader file = new CsvPathReader(icon);
+				BulkUploaderGUI file = new BulkUploaderGUI(icon);
 				file.setVisible(true);
 			}
 		});
