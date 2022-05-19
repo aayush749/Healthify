@@ -1,46 +1,28 @@
 package healthify.gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
+import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-
+import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class CsvPathReader extends JFrame {
 
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CsvPathReader frame = new CsvPathReader();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public CsvPathReader() {
+	public CsvPathReader(Image icon) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 875, 595);
 		contentPane = new JPanel();
@@ -50,6 +32,8 @@ public class CsvPathReader extends JFrame {
 		contentPane.setLayout(null);
 		
 		this.setTitle("Bulk Uploader");
+		this.setIconImage(icon);
+		
 		
 		final JLabel addedFilePathLabel = new JLabel("Added File path is :");
 		addedFilePathLabel.setForeground(Color.WHITE);

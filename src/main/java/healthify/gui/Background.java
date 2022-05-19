@@ -3,9 +3,12 @@ package healthify.gui;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,6 +39,8 @@ public class Background {
 	private String[] symptomsList;
 	private String[] prognosisList;
 	private String imagePath = "src/main/resources/images/android_robot.png";
+	private String iconPath = "src/main/resources/images/HealthifyIcon.png";
+	private Image icon;
 	private String prognosisSelected = "";
 	
 	private HashMap<String, Integer> symptomNameToIDMapping;
@@ -78,6 +84,13 @@ public class Background {
 		mainWindowFrame.getContentPane().setBackground(Color.DARK_GRAY);
 		mainWindowFrame.getContentPane().setLayout(null);
 		mainWindowFrame.setTitle("Healthify");
+		try {
+			icon = ImageIO.read(new File(iconPath));
+			mainWindowFrame.setIconImage(icon);
+		} catch (IOException e1) {
+			mainWindowFrame.setIconImage(null);
+			System.out.println("Unable to load icon image.");
+		}
 		
 		JLabel mainTitleLabel = new JLabel("Healthify");
 		mainTitleLabel.setForeground(Color.WHITE);
@@ -197,7 +210,7 @@ public class Background {
 		JButton bulkUploaderModeSelectButton = new JButton("Insert Records from CSV file");
 		bulkUploaderModeSelectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CsvPathReader file=new CsvPathReader();
+				CsvPathReader file = new CsvPathReader(icon);
 				file.setVisible(true);
 			}
 		});
