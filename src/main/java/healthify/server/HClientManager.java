@@ -39,7 +39,7 @@ public class HClientManager extends Thread {
 			System.out.println("Connection successfully closed with client " + 
 						clientSocket.getInetAddress() + ":" + clientSocket.getPort());
 		} catch (IOException e) {
-			System.out.println("Error reading client's inputs. Error : " + e.getMessage());
+//			System.out.println("Error reading client's inputs. Error : " + e.getMessage());
 		}
 		threadCounter.decrementAndGet();
 	}
