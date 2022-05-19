@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HServer extends Thread {
 	ServerSocket socket;
 	final private int MAX_THREADS = 10;
-	final public static int port = 7777;
+	public static int port = 7777;
 	public boolean isRunning = false;
 	public HServer() throws IOException {
 		this(port);
@@ -17,7 +17,7 @@ public class HServer extends Thread {
 	
 	public HServer(int port) throws IOException {
 		System.out.println("Starting Healthify Server...");
-		
+		this.port = port;
 		socket = new ServerSocket(port);
 		System.out.println("Healthify Server started succesfully");
 		
