@@ -1,5 +1,6 @@
 package healthify.gui;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,6 +14,8 @@ import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class CsvPathReader extends JFrame {
 
@@ -38,16 +41,19 @@ public class CsvPathReader extends JFrame {
 	 * Create the frame.
 	 */
 	public CsvPathReader() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 875, 595);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		final JLabel lblNewLabel = new JLabel("File path is :");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel.setBounds(57, 320, 755, 116);
+		final JLabel lblNewLabel = new JLabel("Added File path is :");
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBackground(Color.DARK_GRAY);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setBounds(63, 372, 755, 116);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Add File Path");
@@ -60,8 +66,13 @@ public class CsvPathReader extends JFrame {
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton.setBounds(359, 213, 222, 51);
+		btnNewButton.setBounds(523, 275, 222, 51);
 		contentPane.add(btnNewButton);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setIcon(new ImageIcon("src/main/resources/images/robot_hand.png"));
+		lblNewLabel_1.setBounds(64, 58, 271, 326);
+		contentPane.add(lblNewLabel_1);
 		
 		
 	}

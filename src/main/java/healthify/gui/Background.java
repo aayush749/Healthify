@@ -34,7 +34,7 @@ public class Background {
 	private Set<String> selectedSymptoms;
 	private String[] symptomsList;
 	private String[] prognosisList;
-	private String imagePath = "src/main/resources/images/robot.png";
+	private String imagePath = "src/main/resources/images/android_robot.png";
 	private String prognosisSelected = "";
 	
 	private HashMap<String, Integer> symptomNameToIDMapping;
@@ -161,7 +161,7 @@ public class Background {
 		enterYourSymptomLabel.setBounds(470, 208, 187, 53);
 		mainWindowFrame.getContentPane().add(enterYourSymptomLabel);
 		
-		JLabel enterPrognosisLabel = new JLabel("Enter the prgonosis :");
+		JLabel enterPrognosisLabel = new JLabel("Select the prgonosis :");
 		enterPrognosisLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		enterPrognosisLabel.setForeground(Color.WHITE);
 		enterPrognosisLabel.setBounds(470, 384, 160, 35);
@@ -173,7 +173,7 @@ public class Background {
 		mainWindowFrame.getContentPane().add(prognosisListComboBox);
 		
 		
-		final JLabel prognosisPeekLabel = new JLabel("Added prognosis is : ");
+		final JLabel prognosisPeekLabel = new JLabel("Selected prognosis is : ");
 		prognosisPeekLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		prognosisPeekLabel.setForeground(Color.WHITE);
 		prognosisPeekLabel.setBounds(934, 214, 447, 47);
@@ -197,7 +197,6 @@ public class Background {
 		bulkUploaderModeSelectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CsvPathReader file=new CsvPathReader();
-				mainWindowFrame.dispose();
 				file.setVisible(true);
 			}
 		});
