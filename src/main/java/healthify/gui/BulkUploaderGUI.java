@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -20,7 +21,7 @@ import healthifylib.BulkUploader;
 
 public class BulkUploaderGUI extends JFrame {
 
-	private JPanel contentPane;
+	private JPanel bulkUploaderWindowFrame;
 	private File path;
 	private BulkUploader uploader;
 
@@ -30,11 +31,11 @@ public class BulkUploaderGUI extends JFrame {
 	public BulkUploaderGUI(Image icon) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 875, 595);
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.DARK_GRAY);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		bulkUploaderWindowFrame = new JPanel();
+		bulkUploaderWindowFrame.setBackground(Color.DARK_GRAY);
+		bulkUploaderWindowFrame.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(bulkUploaderWindowFrame);
+		bulkUploaderWindowFrame.setLayout(null);
 		
 		this.setTitle("Bulk Uploader");
 		this.setIconImage(icon);
@@ -45,7 +46,7 @@ public class BulkUploaderGUI extends JFrame {
 		addedFilePathLabel.setBackground(Color.DARK_GRAY);
 		addedFilePathLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		addedFilePathLabel.setBounds(63, 372, 755, 116);
-		contentPane.add(addedFilePathLabel);
+		bulkUploaderWindowFrame.add(addedFilePathLabel);
 		
 		JButton addFilePathButton = new JButton("Add File Path");
 		addFilePathButton.addActionListener(new ActionListener() {
@@ -58,12 +59,12 @@ public class BulkUploaderGUI extends JFrame {
 		});
 		addFilePathButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		addFilePathButton.setBounds(520, 194, 222, 51);
-		contentPane.add(addFilePathButton);
+		bulkUploaderWindowFrame.add(addFilePathButton);
 		
 		JLabel filePathLabel = new JLabel("FilePathLabel");
 		filePathLabel.setIcon(new ImageIcon("src/main/resources/images/robot_hand.png"));
 		filePathLabel.setBounds(64, 58, 271, 326);
-		contentPane.add(filePathLabel);
+		bulkUploaderWindowFrame.add(filePathLabel);
 		
 		JButton bulkUploadButton = new JButton("Bulk Upload Data");
 		bulkUploadButton.addActionListener(new ActionListener() {
@@ -73,12 +74,13 @@ public class BulkUploaderGUI extends JFrame {
 														 BlockChain.getDeployedContract()
 														 );
 				uploader.bulkUploadToBlockchain();
+				JOptionPane.showMessageDialog(bulkUploaderWindowFrame, "Finished bulk upload, you can now close this window");
 			}
 		});
 		
 		bulkUploadButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		bulkUploadButton.setBounds(520, 287, 222, 51);
-		contentPane.add(bulkUploadButton);
+		bulkUploaderWindowFrame.add(bulkUploadButton);
 		
 		
 	}
