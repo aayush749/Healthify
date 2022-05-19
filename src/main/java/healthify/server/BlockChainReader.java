@@ -65,7 +65,8 @@ public class BlockChainReader extends Thread {
 				var healthify = contract;
 				while(true) {
 					String address = healthify.viewMedicalRecordNumber(BigInteger.valueOf(cur_rec_idx)).send();
-					if(!address.contains("0x00") && (cur_rec_idx - 1) < blocksCount) {
+					BigInteger addressBigInt = new BigInteger(address.replace("0x", ""), 16);
+					if(addressBigInt != BigInteger.valueOf(0) && (cur_rec_idx - 1) < blocksCount) {
 						MedicalRecord record = MedicalRecord.load(address, web3, credentials, gasProvider);
 						List symptomsList = record.listAllSymptoms().send();
 						BigInteger prognosis = record.getPrognosis().send();

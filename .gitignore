@@ -10,3 +10,4 @@ config*.txt
 *.classpath
 /bin/
 /.settings/
+*.bat
